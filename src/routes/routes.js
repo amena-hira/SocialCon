@@ -1,8 +1,11 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Main from '../layout/Main/Main';
 import About from '../Pages/About/About';
+import Login from '../Pages/Authentication/Login';
+import Register from '../Pages/Authentication/Register';
 import Sections from '../Pages/Dashboard/Sections';
 import Posts from '../Pages/shared/Posts/Posts';
+import PrivateRoute from './PrivateRoute';
 
 const routes = createBrowserRouter([
     {
@@ -15,12 +18,21 @@ const routes = createBrowserRouter([
             },
             {
                 path: '/media',
-                element: <Posts></Posts>
+                element: <PrivateRoute><Posts></Posts></PrivateRoute>
             },
             {
                 path: '/about',
-                element: <About></About>
+                element: <PrivateRoute><About></About></PrivateRoute>
             },
+            {
+                path: '/register',
+                element: <Register></Register>
+            },
+            {
+                path: '/login',
+                element: <Login></Login>
+            },
+
 
         ]
     }

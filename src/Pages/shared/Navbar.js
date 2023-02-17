@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from "react-router-dom";
-import profile from '../../images/profile.png'
-import { GoSignOut } from "react-icons/go";
+import profile from '../../images/profile.png';
+import { RiLoginCircleFill } from "react-icons/ri";
+import { AiOutlineLogout } from "react-icons/ai";
+import { AuthContext } from '../../Context/AuthProvider';
 
 const Navbar = () => {
+    const { user, logOut } = useContext(AuthContext);
+    const handleLogout = () =>{
+        logOut()
+        .then(()=>{})
+        .catch(error => console.log(error))
+    }
     const menulist = <>
         <li><Link to='/media'>Media</Link></li>
         <li><Link>Message</Link></li>
@@ -28,14 +36,25 @@ const Navbar = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                    <div className="w-12 rounded-full">
-                        <img src={profile} alt='profile' title='Profile' />
-                    </div>
-                </label>
-                <div className='btn btn-ghost btn-circle avatar'>
-                        <GoSignOut className='h-5 w-5 text-sky-500'></GoSignOut>
-                </div>
+                {user?.uid ?
+                    <>
+                        <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                            <div className="w-12 rounded-full">
+                                <img src={profile} alt='profile' title='Profile' />
+                            </div>
+                        </label>
+                        <div className='btn btn-ghost btn-circle avatar' onClick={handleLogout}>
+                            <AiOutlineLogout className='h-6 w-6 text-sky-300'></AiOutlineLogout>
+                        </div>
+                    </>
+                    :
+                    <>
+                        <div className='btn btn-ghost btn-circle avatar'>
+                            <Link to='/login'><RiLoginCircleFill className='h-6 w-6 text-sky-300'></RiLoginCircleFill></Link>
+                        </div>
+                    </>
+                }
+
 
             </div>
         </div>
