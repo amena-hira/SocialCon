@@ -30,7 +30,7 @@ const AddPost = () => {
                                         user?.uid?
                                         <input type='submit' className="mt-3 btn mt-6 bg-sky-500 border-none hover:bg-pink-900 text-white max-w-xl lg:hidden" value="Submit" />
                                         :
-                                        <button type="button" class="mt-3 px-8 py-3 text-white bg-sky-300 rounded focus:outline-none max-w-xl lg:hidden" disabled>Submit</button>
+                                        <button type="button" className="mt-3 px-8 py-3 text-white bg-sky-300 rounded focus:outline-none max-w-xl lg:hidden" disabled>Submit</button>
                                     }
                                 </div>
                                 {
@@ -40,7 +40,7 @@ const AddPost = () => {
                                         </div>
                                         :
                                         <div className="mt-6">
-                                            <button type="button" class="px-8 py-3 text-white bg-sky-300 rounded focus:outline-none max-w-xl hidden lg:block" disabled>Submit</button>
+                                            <button type="button" className="px-8 py-3 text-white bg-sky-300 rounded focus:outline-none max-w-xl hidden lg:block" disabled>Submit</button>
                                         </div>
                                 }
                             </form>
