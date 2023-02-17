@@ -7,15 +7,30 @@ const AddPost = () => {
     const [messageValue, setMessageValue] = useState(false);
     const [imagesValue, setImagesValue] = useState(false);
     const [imageLength, setImageLength] = useState('');
-    const handleAddPost = (event) =>{
+    const handleAddPost = (event) => {
         event.preventDefault();
         const form = event.target;
         const postMessage = form.postMessage.value;
         const images = form.images.files;
         console.log(postMessage, images, 12);
-        form.reset();
-        setMessageValue('');
-        setImagesValue('');
+        let formData = new FormData();
+        formData.append('postMessage', postMessage)
+        Array.from(images).forEach(item => {
+            formData.append('image', item)
+        })
+
+        fetch('http://localhost:5000/posts', {
+            method: 'POST',
+            body: formData
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                form.reset();
+                setMessageValue('');
+                setImagesValue('');
+            })
+
     }
     return (
         <div className=''>
@@ -27,25 +42,25 @@ const AddPost = () => {
                     </div>
                     <div className="card flex-shrink-0 w-full max-w-sm lg:max-w-xl shadow-2xl bg-base-100">
                         <div className="card-body">
-                            <form onSubmit={handleAddPost} className='flex justify-between'>
+                            <form action='http://localhost:5000/posts' method='post' encType='multipart/form-data' onSubmit={handleAddPost} className='flex justify-between'>
                                 <div className="form-control">
-                                    <textarea className="textarea textarea-info" name='postMessage' placeholder="Post Message" onChange={()=>{setMessageValue(true)}}></textarea>
+                                    <textarea className="textarea textarea-info" name='postMessage' placeholder="Post Message" onChange={() => { setMessageValue(true) }}></textarea>
                                 </div>
                                 <div className="form-control ">
                                     <label className="label">
                                         <span className="label-text">Images</span>
                                     </label>
                                     <label>
-                                        <input multiple type="file" name='images' className='hidden' onChange={(e)=>{setImagesValue(true);setImageLength(e.target.files)}}/>
+                                        <input multiple type="file" name='images' className='hidden' onChange={(e) => { setImagesValue(true); setImageLength(e.target.files) }} />
                                         <img src={upload} className='h-6 w-6' alt="" />
-                                        {imageLength.length>0 && <label>{imageLength.length} Images</label>}
+                                        {imageLength.length > 0 && <label>{imageLength.length} Images</label>}
                                         {imageLength.length === 0 && <span className='text-xs text-sky-900'>**Once select multiple</span>}
                                     </label>
                                     {
-                                        messageValue && imagesValue && user?.uid?
-                                        <input type='submit' className="mt-3 btn mt-6 bg-sky-500 border-none hover:bg-sky-900 text-white max-w-xl lg:hidden" value="Submit" />
-                                        :
-                                        <button type="button" className="mt-3 px-8 py-3 text-white bg-sky-300 rounded focus:outline-none max-w-xl lg:hidden" disabled>Submit</button>
+                                        messageValue && imagesValue && user?.uid ?
+                                            <input type='submit' className="mt-3 btn mt-6 bg-sky-500 border-none hover:bg-sky-900 text-white max-w-xl lg:hidden" value="Submit" />
+                                            :
+                                            <button type="button" className="mt-3 px-8 py-3 text-white bg-sky-300 rounded focus:outline-none max-w-xl lg:hidden" disabled>Submit</button>
                                     }
                                 </div>
                                 {
