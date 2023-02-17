@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AuthContext } from '../../Context/AuthProvider';
 import upload from '../../images/upload.svg';
 
 const AddPost = () => {
+    const { user } = useContext(AuthContext);
     return (
         <div className=''>
             <div className="hero py-20">
@@ -24,11 +26,23 @@ const AddPost = () => {
                                         <input type="file" className='hidden' />
                                         <img src={upload} className='h-6 w-6' alt="" />
                                     </label>
-                                    <input type='submit' className="btn mt-6 bg-sky-500 border-none hover:bg-pink-900 text-white max-w-xl lg:hidden" value="Submit" />
+                                    {
+                                        user?.uid?
+                                        <input type='submit' className="mt-3 btn mt-6 bg-sky-500 border-none hover:bg-pink-900 text-white max-w-xl lg:hidden" value="Submit" />
+                                        :
+                                        <button type="button" class="mt-3 px-8 py-3 text-white bg-sky-300 rounded focus:outline-none max-w-xl lg:hidden" disabled>Submit</button>
+                                    }
                                 </div>
-                                <div className="mt-6">
-                                    <input type='submit' className="btn bg-sky-500 border-none hover:bg-pink-900 text-white max-w-xl hidden lg:block" value="Submit" />
-                                </div>
+                                {
+                                    user?.uid ?
+                                        <div className="mt-6">
+                                            <button className='btn bg-sky-500 border-none hover:bg-sky-900 text-white max-w-xl hidden lg:block'>Submit</button>
+                                        </div>
+                                        :
+                                        <div className="mt-6">
+                                            <button type="button" class="px-8 py-3 text-white bg-sky-300 rounded focus:outline-none max-w-xl hidden lg:block" disabled>Submit</button>
+                                        </div>
+                                }
                             </form>
 
                         </div>
