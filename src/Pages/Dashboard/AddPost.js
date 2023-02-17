@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Context/AuthProvider';
 import upload from '../../images/upload.svg';
 
@@ -7,6 +8,8 @@ const AddPost = () => {
     const [messageValue, setMessageValue] = useState(false);
     const [imagesValue, setImagesValue] = useState(false);
     const [imageLength, setImageLength] = useState('');
+    const navigate = useNavigate();
+
     const handleAddPost = (event) => {
         event.preventDefault();
         const form = event.target;
@@ -29,6 +32,8 @@ const AddPost = () => {
                 form.reset();
                 setMessageValue('');
                 setImagesValue('');
+                navigate('/media')
+                
             })
 
     }
