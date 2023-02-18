@@ -4,6 +4,7 @@ import About from '../Pages/About/About';
 import Login from '../Pages/Authentication/Login';
 import Register from '../Pages/Authentication/Register';
 import Sections from '../Pages/Dashboard/Sections';
+import PostDetails from '../Pages/shared/Posts/PostDetails';
 import Posts from '../Pages/shared/Posts/Posts';
 import PrivateRoute from './PrivateRoute';
 
@@ -14,11 +15,18 @@ const routes = createBrowserRouter([
         children:[
             {
                 path: '/',
+                loader:() => fetch('http://localhost:5000/popular/posts'),
                 element: <Sections></Sections>
             },
             {
                 path: '/media',
+                loader:() => fetch('http://localhost:5000/posts'),
                 element: <PrivateRoute><Posts></Posts></PrivateRoute>
+            },
+            {
+                path: '/posts/:id',
+                loader:({params}) => fetch(`http://localhost:5000/posts/${params.id}`),
+                element: <PrivateRoute><PostDetails></PostDetails></PrivateRoute>
             },
             {
                 path: '/about',

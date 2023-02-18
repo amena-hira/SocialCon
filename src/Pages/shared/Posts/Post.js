@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { AiOutlineLike } from "react-icons/ai";
 import { FaCommentDots } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 
 const Post = ({ post }) => {
+    const routeName = window.location.pathname;
     const { _id, postMessage, imageUrl, like, comment } = post;
     const [commentText, setCommentText] = useState('');
     const addLike = () => {
@@ -37,13 +39,19 @@ const Post = ({ post }) => {
                 <div className='inline-block p-4 bg-bg_color rounded-2xl'>
                     <img className="rounded-3xl" src={`http://localhost:5000/${imageUrl[0]}`} alt="" />
                     <div className="small-images flex gap-x-2 mt-2" style={{ width: 'min-content', minWidth: '100%' }}>
-                        {imageUrl.map((imagePath, index) => <div key={index}><img className="rounded-xl" src={`http://localhost:5000/${imagePath}`} alt="" /></div>)}
+                        {imageUrl.map((imagePath, index) => <div key={index}><img className="rounded-xl h-full" src={`http://localhost:5000/${imagePath}`} alt="" /></div>)}
                     </div>
 
                 </div>
             </figure>
             <div className="card-body">
-                <p className='pb-4'>{postMessage.slice(0, 100)}.....</p>
+                {
+                    routeName === `/posts/${_id}`?
+                    <p className='pb-4'>{postMessage}</p>
+                    :
+                    <p className='pb-4'>{postMessage.slice(0, 100)}.....<Link className='btn-link text-' to={`/posts/${_id}`} >details</Link></p>
+                }
+                {/* <p className='pb-4'>{postMessage.slice(0, 100)}.....<Link className='btn-link text-' to={`/posts/${_id}`} >details</Link></p> */}
                 <div className="card-actions items-center justify-between ">
 
                     <div className="tooltip tooltip-open tooltip-right" data-tip={like > 0 ? like : 0}>
