@@ -15,17 +15,17 @@ const routes = createBrowserRouter([
         children:[
             {
                 path: '/',
-                loader:() => fetch('http://localhost:5000/popular/posts'),
+                loader:() => fetch('https://social-media-server-amena-hira.vercel.app/popular/posts'),
                 element: <Sections></Sections>
             },
             {
                 path: '/media',
-                loader:() => fetch('http://localhost:5000/posts'),
-                element: <PrivateRoute><Posts></Posts></PrivateRoute>
+                loader:() => fetch('https://social-media-server-amena-hira.vercel.app/posts'),
+                element: <Posts></Posts>
             },
             {
                 path: '/posts/:id',
-                loader:({params}) => fetch(`http://localhost:5000/posts/${params.id}`),
+                loader:({params}) => fetch(`https://social-media-server-amena-hira.vercel.app/posts/${params.id}`),
                 element: <PrivateRoute><PostDetails></PostDetails></PrivateRoute>
             },
             {

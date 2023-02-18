@@ -9,7 +9,7 @@ const Post = ({ post }) => {
     const { _id, postMessage, imageUrl, like, comment } = post;
     const [commentText, setCommentText] = useState('');
     const addLike = () => {
-        fetch(`http://localhost:5000/posts/${_id}`, {
+        fetch(`https://social-media-server-amena-hira.vercel.app/posts/${_id}`, {
             method: 'PATCH',
         })
             .then(res => res.json())
@@ -20,7 +20,7 @@ const Post = ({ post }) => {
     }
     const addComment = () => {
         console.log(commentText)
-        fetch(`http://localhost:5000/posts/${_id}`, {
+        fetch(`https://social-media-server-amena-hira.vercel.app/posts/${_id}`, {
             method: 'PATCH',
             headers: {
                 'content-type': 'application/json',
@@ -36,12 +36,12 @@ const Post = ({ post }) => {
     return (
         <div className="card glass">
             <figure>
-                {/* <img src={post1} alt="" /> */}
                 <div className='inline-block p-4 bg-bg_color rounded-2xl'>
-                    <img className="rounded-3xl" src={`http://localhost:5000/${imageUrl[0]}`} alt="" />
-                    <div className="small-images flex gap-x-2 mt-2" style={{ width: 'min-content', minWidth: '100%' }}>
-                        {imageUrl.map((imagePath, index) => <div key={index}><img className="rounded-xl h-full" src={`http://localhost:5000/${imagePath}`} alt="" /></div>)}
-                    </div>
+                    <img className="rounded-3xl" src={imageUrl} alt="" />
+                    {/* Multiple Images */}
+                    {/* <div className="small-images flex gap-x-2 mt-2" style={{ width: 'min-content', minWidth: '100%' }}>
+                        {imageUrl.map((imagePath, index) => <div key={index}><img className="rounded-xl h-full" src={`https://social-media-server-amena-hira.vercel.app/${imagePath}`} alt="" /></div>)}
+                    </div> */}
 
                 </div>
             </figure>
@@ -69,9 +69,9 @@ const Post = ({ post }) => {
                     <div className="">
 
                         {comment.length > 0 &&
-                            comment.map(comm => <div className="chat chat-start mt-1">
-                                <div class="chat-image avatar">
-                                    <div class="w-10 rounded-full">
+                            comment.map((comm, i) => <div className="chat chat-start mt-1" key={i}>
+                                <div className="chat-image avatar">
+                                    <div className="w-10 rounded-full">
                                         <img src={profile} alt=''/>
                                     </div>
                                 </div>

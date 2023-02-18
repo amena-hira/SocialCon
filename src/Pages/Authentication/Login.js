@@ -35,7 +35,7 @@ const Login = () => {
                     email: user.email
                 }
                 
-                fetch('http://localhost:5000/users', {
+                fetch('https://social-media-server-amena-hira.vercel.app/users', {
                     method: 'POST',
                     headers: {
                         'content-type': 'application/json',

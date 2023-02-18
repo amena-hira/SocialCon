@@ -7,7 +7,7 @@ const About = () => {
     const [userDetails, setUserDetails] = useState('');
     const {user} = useContext(AuthContext)
     useEffect(() => {
-        fetch(`http://localhost:5000/users/${user.email}`)
+        fetch(`https://social-media-server-amena-hira.vercel.app/users/${user.email}`)
             .then(res => res.json())
             .then(data => {
                 console.log(data)
