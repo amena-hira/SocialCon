@@ -14,19 +14,40 @@ const Register = () => {
         const profile = {
             displayName: 'User'
         }
+        const userDetails = {
+            name: 'User',
+            email
+        }
         console.log(email, password);
         createUser(email, password)
-        .then(result => {
-            console.log(result);
-            const user = result.user;
-            console.log(user);
-            updateUserProfile(profile)
-            .then(()=>{})
-            .catch(error => console.log(error))
-            form.reset();
-            navigate('/');
-        })
-        .catch(err => console.log(err))
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+
+                // data store in mongodb
+                fetch('http://localhost:5000/users', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json',
+                    },
+                    body: JSON.stringify(userDetails)
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.acknowledged) {
+                            form.reset();
+                        }
+                        console.log(data)
+                    })
+                
+                // update display name in firebase
+                updateUserProfile(profile)
+                    .then(() => { })
+                    .catch(error => console.log(error))
+
+                navigate('/');
+            })
+            .catch(err => console.log(err))
     }
 
     return (
