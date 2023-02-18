@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { AiOutlineLike } from "react-icons/ai";
 import { FaCommentDots } from "react-icons/fa";
 import { Link } from 'react-router-dom';
+import profile from '../../../images/profile.jpg';
 
 const Post = ({ post }) => {
     const routeName = window.location.pathname;
@@ -11,26 +12,26 @@ const Post = ({ post }) => {
         fetch(`http://localhost:5000/posts/${_id}`, {
             method: 'PATCH',
         })
-        .then(res => res.json())
-        .then(data => {
-            console.log(data)
-            window.location.reload();
-        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                window.location.reload();
+            })
     }
-    const addComment = () =>{
+    const addComment = () => {
         console.log(commentText)
         fetch(`http://localhost:5000/posts/${_id}`, {
             method: 'PATCH',
             headers: {
                 'content-type': 'application/json',
             },
-            body: JSON.stringify({comment: commentText})
+            body: JSON.stringify({ comment: commentText })
         })
-        .then(res => res.json())
-        .then(data => {
-            console.log(data)
-            window.location.reload();
-        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                window.location.reload();
+            })
     }
     return (
         <div className="card glass">
@@ -46,12 +47,11 @@ const Post = ({ post }) => {
             </figure>
             <div className="card-body">
                 {
-                    routeName === `/posts/${_id}`?
-                    <p className='pb-4'>{postMessage}</p>
-                    :
-                    <p className='pb-4'>{postMessage.slice(0, 100)}.....<Link className='btn-link text-' to={`/posts/${_id}`} >details</Link></p>
+                    routeName === `/posts/${_id}` ?
+                        <p className='pb-4'>{postMessage}</p>
+                        :
+                        <p className='pb-4'>{postMessage.slice(0, 100)}.....<Link className='btn-link text-info' to={`/posts/${_id}`} >details</Link></p>
                 }
-                {/* <p className='pb-4'>{postMessage.slice(0, 100)}.....<Link className='btn-link text-' to={`/posts/${_id}`} >details</Link></p> */}
                 <div className="card-actions items-center justify-between ">
 
                     <div className="tooltip tooltip-open tooltip-right" data-tip={like > 0 ? like : 0}>
@@ -60,16 +60,28 @@ const Post = ({ post }) => {
 
                     <div className="form-control">
                         <label className="input-group ">
-                            <input onChange={(e)=>setCommentText(e.target.value)} type="text" name='comment' placeholder="Comment Here" className="input input-bordered w-full" />
+                            <input onChange={(e) => setCommentText(e.target.value)} type="text" name='comment' placeholder="Comment Here" className="input input-bordered w-full" />
                             <span className='' onClick={addComment}><FaCommentDots className='text-sky-500'></FaCommentDots> </span>
                         </label>
                     </div>
                 </div>
                 {comment &&
                     <div className="">
-                        <div className="w-full border p-2 rounded border-sky-600">
-                            {comment}
-                        </div>
+
+                        {comment.length > 0 &&
+                            comment.map(comm => <div className="chat chat-start mt-1">
+                                <div class="chat-image avatar">
+                                    <div class="w-10 rounded-full">
+                                        <img src={profile} alt=''/>
+                                    </div>
+                                </div>
+                                <div className="chat-bubble w-full bg-sky-800">{comm}</div>
+                            </div>)
+                        }
+                        {/* {comment.length > 0 &&
+                            comment.map(comm => <div className="w-full border px-2 mt-2 rounded border-sky-600">{comm}</div>)
+                        } */}
+
                     </div>
                 }
             </div>
